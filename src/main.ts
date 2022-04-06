@@ -12,8 +12,25 @@ app.mount('#app')
 
 import { cxRequest } from './service'
 
-cxRequest.request({
-  url: '/home/multidata',
-  method: 'GET',
-  showLoading: false
-})
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+interface DataType {
+  data: any
+  retrunCode: string
+  success: boolean
+}
+
+cxRequest
+  .get<DataType>({
+    url: '/home/multidata',
+    showLoading: false
+  })
+  .then((res) => {
+    console.log(res.data)
+  })

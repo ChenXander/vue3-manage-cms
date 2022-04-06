@@ -5,7 +5,7 @@ export interface CXRequestInterceptors {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
   requestInterceptorCatch?: (error: any) => any
 
-  responseInterceptor?: (res: AxiosResponse) => AxiosResponse
+  responseInterceptor?: (res: any) => any
   responseInterceptorCatch?: (error: any) => any
 }
 
