@@ -2,16 +2,16 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { CXRequestInterceptors, CXRequestConfig } from './type'
 
-import { ElLoading } from 'element-plus'
-import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
+import { ElLoading } from 'element-plus' // loading组件
+import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading' // loading组件的实例
 
-const DEFAULT_LOADING = true
+const DEFAULT_LOADING = true // 默认加载loading
 
-// 封装网络请求类
+// 封装自定义的网络请求类
 class CXRequest {
-  instance: AxiosInstance
-  interceptors?: CXRequestInterceptors
-  showLoading: boolean
+  instance: AxiosInstance // 实例
+  interceptors?: CXRequestInterceptors // 接口
+  showLoading: boolean // 控制loading显示
   loading?: LoadingInstance
 
   constructor(config: CXRequestConfig) {
@@ -61,7 +61,7 @@ class CXRequest {
         this.loading?.close()
 
         const data = res.data
-        if (data.retrunCode === '-1001') {
+        if (data.returnCode === '-1001') {
           console.log('请求失败~，错误信息')
         } else {
           return data
@@ -71,12 +71,17 @@ class CXRequest {
         console.log('所有实例都有的拦截器：响应失败拦截')
         // 将loading移除
         this.loading?.close()
+
+        // 例子: 判断不同的HttpErrorCode显示不同的错误信息
+        if (err.response.status === 404) {
+          console.log('404的错误~')
+        }
         return err
       }
     )
   }
 
-  request<T>(config: CXRequestConfig): Promise<T> {
+  request<T>(config: CXRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 1.单个请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -110,16 +115,16 @@ class CXRequest {
     })
   }
 
-  get<T>(config: CXRequestConfig): Promise<T> {
+  get<T>(config: CXRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
-  post<T>(config: CXRequestConfig): Promise<T> {
+  post<T>(config: CXRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
-  delete<T>(config: CXRequestConfig): Promise<T> {
+  delete<T>(config: CXRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
-  PATCH<T>(config: CXRequestConfig): Promise<T> {
+  PATCH<T>(config: CXRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

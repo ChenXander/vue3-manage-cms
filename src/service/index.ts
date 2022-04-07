@@ -2,7 +2,7 @@
 
 // 导入封装好的类
 import CXRequest from './request'
-import { BASE_URL, TIME_OUT } from '@/service/request/config'
+import { BASE_URL, TIME_OUT } from './request/config'
 
 export const cxRequest = new CXRequest({
   baseURL: BASE_URL,

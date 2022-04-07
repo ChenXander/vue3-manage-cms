@@ -22,7 +22,7 @@ import { cxRequest } from './service'
  */
 interface DataType {
   data: any
-  retrunCode: string
+  returnCode: string
   success: boolean
 }
 
